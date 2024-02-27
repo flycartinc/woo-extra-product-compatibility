@@ -1,0 +1,19 @@
+{
+  "name": "woo-extra-product-compatibility/woo-extra-product-compatibility",
+  "description": "",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Ilaiyaraja",
+      "email": "ilayaraja@cartrabbit.in"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "WEPC\\": ""
+    }
+  }
+}
