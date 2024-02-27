@@ -25,7 +25,7 @@ class Main
         $prices = explode('&nbsp;', $price);
         $price = (float)str_replace($replace_strings, '', $prices[0]);
         if ($original_price != $price) {
-            $result = apply_filters('advanced_woo_discount_rules_get_product_discount_price_from_custom_price', $price, $product, 1, $price, 'discounted_price', true, true);
+            $result = apply_filters('wdr_get_product_discounted_price',$price,$product,1,$original_price);
             if ($result !== false) {
                 $price_html = "<del>{$price_html}</del><ins>" . wc_price($result) . "</ins>";
             }
