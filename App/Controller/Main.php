@@ -19,10 +19,9 @@ class Main
         }
         $product = Product::get($product_id);
         $original_price = Product::getPrice($product_id);
-//        $prices = explode('&nbsp;', $price);
         $prices = explode(';', $price);
-//        $price = (float)str_replace($replace_strings, '', $prices[0]);
-        $price = apply_filters('wdr_wholesale_compatibility_price', $prices[1], $product_id,$price_html);
+        $price = apply_filters('wdr_extra_product_compatibility_price', end($prices), $product_id,$price_html);
+
         if ($original_price != $price) {
             $result = apply_filters('wdr_get_product_discounted_price',$price,$product,1,$price);
             if ($result !== false) {
