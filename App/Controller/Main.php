@@ -13,7 +13,6 @@ class Main
     function renderPrice($price_html, $product_id)
     {
         $price = trim(strip_tags($price_html));
-        //$replace_strings = array('&#36;', '&nbsp;');
         if (!function_exists('wc_get_product')) {
             return $price_html;
         }
