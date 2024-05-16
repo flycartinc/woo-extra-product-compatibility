@@ -22,7 +22,7 @@ class Main
         $price = apply_filters('wdr_extra_product_compatibility_price', end($prices), $product_id,$price_html);
 
         if ($original_price != $price) {
-            $result = apply_filters('wdr_get_product_discounted_price',$price,$product,1,$price);
+            $result = apply_filters('wdr_get_product_discounted_price',false,$product,1,$price);
             if ($result !== false) {
                 $price_html = "<del>{$price_html}</del><ins>" . wc_price($result) . "</ins>";
             }
