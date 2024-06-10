@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name:         Woo extra product option compatibility
+ * Plugin Name:         Extra product option compatibility
  * Plugin URI:          https://www.flycart.org
- * Description:         This add-on used to give compatibility of woocommerce extra product option by themehigh for woo discount rules.
+ * Description:         This add-on used to give compatibility of woocommerce extra product option by ThemeHigh for woo discount rules.
  * Version:             1.0.0
  * Requires at least:   5.3
  * Requires PHP:        5.6
  * Author:              Flycart
  * Author URI:          https://www.flycart.org
- * Slug:                woo-extra-product-compatibility
- * Text Domain:         woo-extra-product-compatibility
+ * Slug:                wdr-product-options-compatibility
+ * Text Domain:         wdr-product-options-compatibility
  * Domain path:         /i18n/languages/
  * License:             GPL v3 or later
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
@@ -69,7 +69,7 @@ if (!$plugin::isActive('woocommerce-extra-product-options-pro/woocommerce-extra-
 
 defined('WEPC_PLUGIN_NAME') or define('WEPC_PLUGIN_NAME', 'Woo extra product option compatibility');
 defined('WEPC_PLUGIN_VERSION') or define('WEPC_PLUGIN_VERSION', '1.0.0');
-defined('WEPC_PLUGIN_SLUG') or define('WEPC_PLUGIN_SLUG', 'woo-extra-product-compatibility');
+defined('WEPC_PLUGIN_SLUG') or define('WEPC_PLUGIN_SLUG', 'wdr-product-options-compatibility');
 
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     return;

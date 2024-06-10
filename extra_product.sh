@@ -1,4 +1,4 @@
-echo "Woo extra product compatibility"
+echo "Extra product options compatibility"
 current_dir="$PWD"
 composer_run(){
   # shellcheck disable=sc2164
@@ -11,13 +11,13 @@ copy_folder(){
   cd "$current_dir"
   cd ..
   pack_folder=$PWD"/generated_pack"
-  compressed_plugin_folder=$pack_folder"/woo-extra-product-compatibility"
+  compressed_plugin_folder=$pack_folder"/wdr-product-options-compatibility"
   if [ -d "$pack_folder"]; then
     rm -r "$pack_folder"
   fi
   mkdir "$pack_folder"
   mkdir "$compressed_plugin_folder"
-  move_dir=("App" "vendor" "woo-extra-product-compatibility.php")
+  move_dir=("App" "vendor" "wdr-product-options-compatibility.php")
   # shellcheck disable=sc2068
   for dir in ${move_dir[@]}; do
     cp -r "$current_dir/$dir" "$compressed_plugin_folder/$dir"
@@ -29,7 +29,7 @@ function zip_folder(){
   cd ..
   pack_compress_folder=$PWD"/generated_pack"
   cd "$pack_compress_folder"
-  zip_name="woo-extra-product-compatibility"
+  zip_name="wdr-product-options-compatibility"
   rm "$zip_name".zip
   zip -r "$zip_name".zip $zip_name -q
   zip -d "$zip_name".zip __MACOSX/\*

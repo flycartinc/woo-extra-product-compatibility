@@ -15,7 +15,11 @@ class Router
     function init()
     {
         self::$main = empty(self::$main) ? new Main() : self::$main;
-        add_filter('thwepo_product_page_display_price', [self::$main, 'checkPriceFinal'], 10, 4);
-        add_filter('thwepo_product_price_html', [self::$main, 'renderPrice'], 10, 2);
+        if (self::$main->check()) {
+            add_filter('thwepo_product_price_html', [self::$main, 'renderPrice'], 100, 2);
+            add_action('woocommerce_before_calculate_totals',function (){
+
+            },10,1);
+        }
     }
 }
