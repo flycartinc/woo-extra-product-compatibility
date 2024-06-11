@@ -1,8 +1,8 @@
 <?php
 
-namespace WEPC\App;
+namespace WDRPO\App;
 
-use WEPC\App\Controller\Main;
+use WDRPO\App\Controller\Main;
 
 defined("ABSPATH") or die();
 class Router
@@ -10,16 +10,17 @@ class Router
     /**
      * @var Main
      */
-    private static $main;
 
-    function init()
+    public static function init()
     {
-        self::$main = empty(self::$main) ? new Main() : self::$main;
-        if (self::$main->check()) {
-            add_filter('thwepo_product_price_html', [self::$main, 'renderPrice'], 100, 2);
-            add_action('woocommerce_before_calculate_totals',function (){
+        add_action('wp_loaded',function (){
 
-            },10,1);
-        }
+            if (\WDRPO\App\Controller\Main::check()) {
+                add_filter('thwepo_product_price_html', 'WDRPO\App\Controller\Main::renderPrice', 10, 2);
+
+            }
+
+        });
+
     }
 }

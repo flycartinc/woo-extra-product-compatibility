@@ -17,68 +17,91 @@
  * WC tested up to:     8.0
  */
 
-defined("ABSPATH") or die();
+defined( "ABSPATH" ) or die();
 
-if (!function_exists('isWoocommerceActive')) {
-    function isWoocommerceActive(){
-        $active_plugins = apply_filters('active_plugins', get_option('active_plugins', array()));
-        if (is_multisite()) {
-            $active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
+if ( ! function_exists( 'isWoocommerceActive' ) ) {
+    function isWoocommerceActive() {
+        $active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+        if ( is_multisite() ) {
+            $active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
         }
-        return in_array('woocommerce/woocommerce.php', $active_plugins, false) || array_key_exists('woocommerce/woocommerce.php', $active_plugins);
+
+        return in_array( 'woocommerce/woocommerce.php', $active_plugins, false ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
     }
 }
-if (!function_exists('isDiscountRulesActive')) {
-    function isDiscountRulesActive(){
-        $active_plugins = apply_filters('active_plugins', get_option('active_plugins', array()));
-        if (is_multisite()) {
-            $active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
+if ( ! function_exists( 'isDiscountRulesActive' ) ) {
+    function isDiscountRulesActive() {
+        $active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+        if ( is_multisite() ) {
+            $active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
         }
-        return in_array('woo-discount-rules-pro/woo-discount-rules-pro.php', $active_plugins, false) || in_array('woo-discount-rules/woo-discount-rules.php', $active_plugins, false);
+
+        return in_array( 'woo-discount-rules-pro/woo-discount-rules-pro.php', $active_plugins, false ) || in_array( 'woo-discount-rules/woo-discount-rules.php', $active_plugins, false );
     }
 }
 
-if (!isWoocommerceActive() || !isDiscountRulesActive()) return;
+if ( ! isWoocommerceActive() || ! isDiscountRulesActive() ) {
+    return;
+}
+
+
+if ( ! class_exists( '\WDR\Core\Helpers\Plugin' ) && file_exists( WP_PLUGIN_DIR . '/woo-discount-rules/vendor/autoload.php' ) ) {
+    require_once WP_PLUGIN_DIR . '/woo-discount-rules/vendor/autoload.php';
+} elseif ( file_exists( WP_PLUGIN_DIR . '/woo-discount-rules-pro/vendor/autoload.php' ) ) {
+    require_once WP_PLUGIN_DIR . '/woo-discount-rules-pro/vendor/autoload.php';
+}
+if ( ! class_exists( '\WDR\Core\Helpers\Plugin' ) ) {
+    return;
+}
+
 /**
  * Check discount rules plugin is latest.
  */
-if (!function_exists('isWooDiscountLatestVersion')) {
-    function isWooDiscountLatestVersion()
-    {
-        $db_version = get_option('wdr_version', '');
-        if (defined('WDR_PLUGIN_VERSION') && !empty($db_version)) {
-            return (version_compare($db_version, WDR_PLUGIN_VERSION, '>='));
+if ( ! function_exists( 'isWooDiscountLatestVersion' ) ) {
+    function isWooDiscountLatestVersion() {
+        $db_version = get_option( 'wdr_version', '' );
+        if ( ! empty( $db_version ) ) {
+            return ( version_compare( $db_version, "3.0.0", '>=' ) );
         }
+
         return false;
     }
 }
-if (!isWooDiscountLatestVersion()) return;
-
-if (!class_exists('\WDR\Core\Helpers\Plugin') && file_exists(WP_PLUGIN_DIR . '/woo-discount-rules/vendor/autoload.php')) {
-    require_once WP_PLUGIN_DIR . '/woo-discount-rules/vendor/autoload.php';
-}elseif (file_exists(WP_PLUGIN_DIR . '/woo-discount-rules-pro/vendor/autoload.php')){
-    require_once WP_PLUGIN_DIR . '/woo-discount-rules-pro/vendor/autoload.php';
-}
-if (!class_exists('\WDR\Core\Helpers\Plugin')) {
+if ( ! isWooDiscountLatestVersion() ) {
     return;
 }
+
 $plugin = new \WDR\Core\Helpers\Plugin();
-if (!$plugin::isActive('woocommerce-extra-product-options-pro/woocommerce-extra-product-options-pro.php')) {
+if ( ! $plugin::isActive( 'woocommerce-extra-product-options-pro/woocommerce-extra-product-options-pro.php' ) ) {
     return;
 }
 
-defined('WEPC_PLUGIN_NAME') or define('WEPC_PLUGIN_NAME', 'Woo extra product option compatibility');
-defined('WEPC_PLUGIN_VERSION') or define('WEPC_PLUGIN_VERSION', '1.0.0');
-defined('WEPC_PLUGIN_SLUG') or define('WEPC_PLUGIN_SLUG', 'wdr-product-options-compatibility');
+defined( 'WDRPO_PLUGIN_NAME' ) or define( 'WDRPO_PLUGIN_NAME', 'Woo extra product option compatibility' );
+defined( 'WDRPO_PLUGIN_VERSION' ) or define( 'WDRPO_PLUGIN_VERSION', '1.0.0' );
+defined( 'WDRPO_PLUGIN_SLUG' ) or define( 'WDRPO_PLUGIN_SLUG', 'wdr-product-options-compatibility' );
 
-if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     return;
 }
 require __DIR__ . '/vendor/autoload.php';
 
-if (class_exists(\WEPC\App\Router::class)){
-    $plugin = new \WEPC\App\Router();
-    if (method_exists($plugin, 'init')) $plugin->init();
+if ( ! class_exists( \WDRPO\App\Router::class ) ) {
+    return;
 }
+
+$myUpdateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+    'https://github.com/flycartinc/woo-extra-product-compatibility',
+    __FILE__,
+    'wdr-product-options-compatibility'
+);
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
+if ( ! method_exists( \WDRPO\App\Router::class, 'init' ) ) {
+    return;
+}
+
+\WDRPO\App\Router::init();
+
+
 
 

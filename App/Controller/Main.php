@@ -1,6 +1,6 @@
 <?php
 
-namespace WEPC\App\Controller;
+namespace WDRPO\App\Controller;
 
 use WDR\Core\Models\WC\Product;
 
@@ -14,7 +14,7 @@ class Main
      *
      * @return bool
      */
-    function check()
+    public static function check()
     {
         $rules = \WDR\Core\Models\Custom\StoreRule::getRules();
         if (empty($rules)) {
@@ -41,7 +41,7 @@ class Main
      * @param $product_id
      * @return mixed|string
      */
-    static function renderPrice($price_html, $product_id)
+    public static function renderPrice($price_html, $product_id)
     {
         if (empty($product_id)) {
             return $price_html;
@@ -56,7 +56,7 @@ class Main
         $price = apply_filters('wdr_extra_product_compatibility_price', end($prices), $product_id,$price_html);
         if ($original_price != $price) {
             $result = apply_filters('wdr_get_product_discounted_price', false, $product, 1, $price);
-            $result = (float)apply_filters('wdr_discount_get_product_price', false, $product, $product_id, 'cart');
+//            $result = (float)apply_filters('wdr_discount_get_product_price', false, $product, $product_id, 'cart');
             if ($result !== false) {
                $price_html = "<del>{$price_html}</del><ins>" . wc_price($result) . "</ins>";
             }
