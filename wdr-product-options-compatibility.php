@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:         Extra product option compatibility
+ * Plugin Name:         Discount rules : Extra product options compatibility
  * Plugin URI:          https://www.flycart.org
  * Description:         This add-on used to give compatibility of woocommerce extra product option by ThemeHigh for woo discount rules.
  * Version:             1.0.0
